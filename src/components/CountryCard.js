@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ComparisonBadge from './ComparisonBadge';
 
-function CountryCard({ country, toggleFavorite, isFav }) {
+function CountryCard({ country, toggleFavorite, isFav, addToComparison, isInComparison }) {
   return (
     <div className="relative border rounded-lg overflow-hidden shadow hover:scale-105 transition bg-white dark:bg-gray-800 text-black dark:text-white">
       <img src={country.flags.png} alt={country.name.common} className="w-full h-40 object-cover" />
@@ -16,6 +17,11 @@ function CountryCard({ country, toggleFavorite, isFav }) {
         <button onClick={() => toggleFavorite(country.cca3)} className="absolute top-2 right-2">
           {isFav ? '⭐' : '☆'}
         </button>
+        <ComparisonBadge 
+          isInComparison={isInComparison(country.cca3)} 
+          onClick={() => isInComparison(country.cca3) ? null : addToComparison(country)}
+          position="bottom-right"
+        />
       </div>
     </div>
   );

@@ -4,9 +4,11 @@ import HomePage from './pages/HomePage';
 import CountryPage from './pages/CountryPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import StatisticsPage from './pages/StatisticsPage';
 import Header from './components/Header';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
+import ComparisonPage from './pages/ComparisonPage';
 
 function App() {
   return (
@@ -24,6 +26,16 @@ function App() {
           <Route path="/country/:code" element={
             <ProtectedRoute>
               <CountryPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/compare" element={
+            <ProtectedRoute>
+              <ComparisonPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/statistics" element={
+            <ProtectedRoute>
+              <StatisticsPage />
             </ProtectedRoute>
           } />
         </Routes>

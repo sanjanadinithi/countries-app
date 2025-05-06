@@ -6,7 +6,9 @@ import {
 } from '../services/countryService';
 import CountryCard from '../components/CountryCard';
 import SearchFilter from '../components/SearchFilter';
+import ComparisonBar from '../components/ComparisonBar';
 import useFavorites from '../hooks/useFavorites';
+import useComparisonList from '../hooks/useComparisonList';
 
 function HomePage() {
   const [countries, setCountries] = useState([]);
@@ -14,11 +16,17 @@ function HomePage() {
   const [region, setRegion] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Favorites
   const [favorites, toggleFavorite] = useFavorites();
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
 
-  // Load Countries Function
+  const {
+    comparisonList,
+    addToComparison,
+    removeFromComparison,
+    clearComparison,
+    isInComparison,
+  } = useComparisonList();
+
   const loadCountries = useCallback(async () => {
     setLoading(true);
     try {
@@ -43,13 +51,12 @@ function HomePage() {
     loadCountries();
   }, [loadCountries]);
 
-  // Apply favorites filter
   const filtered = showOnlyFavorites
     ? countries.filter((c) => favorites.includes(c.cca3))
     : countries;
 
   return (
-    <div className="p-6">
+    <div className="p-6 pb-16">
       <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
         <SearchFilter
           search={search}
@@ -77,10 +84,18 @@ function HomePage() {
               country={country}
               toggleFavorite={toggleFavorite}
               isFav={favorites.includes(country.cca3)}
+              addToComparison={addToComparison}
+              isInComparison={isInComparison}
             />
           ))}
         </div>
       )}
+
+      <ComparisonBar
+        comparisonList={comparisonList}
+        removeFromComparison={removeFromComparison}
+        clearComparison={clearComparison}
+      />
     </div>
   );
 }
